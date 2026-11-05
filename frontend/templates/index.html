@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A secure, simple way for our campus community to report and recover lost belongings.">
+    <title>Campus Lost &amp; Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="landing-page">
+    <header class="landing-nav">
+        <a href="{{ url_for('index') }}" class="logo" aria-label="Campus Lost and Found home">
+            <span class="logo-mark" aria-hidden="true">C</span>
+            <span>Campus <strong>Lost &amp; Found</strong></span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="#about">About</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}" class="btn-nav">Register</a>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="landing-flashes" role="status" aria-live="polite">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <p class="hero-kicker">A little help goes a long way</p>
+                <h1 id="hero-title">Campus Lost &amp; Found</h1>
+                <p>Lost something on campus? Don't worry. Our platform connects students who have lost their belongings with those who have found them, making it easier to recover what matters.</p>
+                <a href="{{ url_for('login') }}" class="hero-btn">Find Your Lost Item <span aria-hidden="true">→</span></a>
+            </div>
+            <a class="hero-scroll" href="#about">Discover how it works <span aria-hidden="true">↓</span></a>
+        </section>
+
+        <section id="about" class="about-section" aria-labelledby="about-title">
+            <div class="section-heading">
+                <p class="eyebrow">Together, we find a way</p>
+                <h2 id="about-title">A more connected campus</h2>
+                <p>Campus Lost &amp; Found is a central place to report missing belongings and reunite found items with their owners. We built it to replace scattered messages and notice boards with a clearer, more reliable process for students and campus security.</p>
+                <p>Students can submit a lost-item report and follow its status. Security staff register items handed in, review possible matches, and verify ownership before recording a return—helping the whole campus community get back to what matters.</p>
+            </div>
+
+            <div class="about-gallery" aria-label="Campus community">
+                <figure class="about-photo about-photo-large">
+                    <img src="{{ url_for('static', filename='class.jpg') }}" alt="Students gathered in a university classroom">
+                    <figcaption>Looking out for one another</figcaption>
+                </figure>
+                <figure class="about-photo">
+                    <img src="{{ url_for('static', filename='stairs.jpg') }}" alt="Students moving through a busy campus building">
+                    <figcaption>Across every corner of campus</figcaption>
+                </figure>
+                <figure class="about-photo">
+                    <img src="{{ url_for('static', filename='lib.jpg') }}" alt="A student browsing books in the university library">
+                    <figcaption>From the library to the lecture hall</figcaption>
+                </figure>
+            </div>
+
+            <div class="about-stats" aria-label="Live campus recovery statistics">
+                <article class="about-card">
+                    <span class="stat-icon" aria-hidden="true">01</span>
+                    <h3>{{ stats.students_helped }}</h3>
+                    <p>Students Helped</p>
+                </article>
+                <article class="about-card">
+                    <span class="stat-icon" aria-hidden="true">02</span>
+                    <h3>{{ stats.items_reported }}</h3>
+                    <p>Items Reported</p>
+                </article>
+                <article class="about-card">
+                    <span class="stat-icon" aria-hidden="true">03</span>
+                    <h3>{{ stats.items_recovered }}</h3>
+                    <p>Items Successfully Recovered</p>
+                </article>
+            </div>
+            <p class="stats-note">Live totals from campus reports and verified handovers.</p>
+        </section>
+    </main>
+
+    <footer class="landing-footer">
+        <a href="{{ url_for('index') }}">Campus Lost &amp; Found</a>
+        <span>Helping our campus community reconnect with what matters.</span>
+    </footer>
+</body>
+</html>

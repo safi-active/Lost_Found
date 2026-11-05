@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost & Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<!-- If the user is NOT logged in, we use the 'landing-page' class to remove the sidebar flexbox -->
+<body class="{% if not session.get('user_id') %}landing-page{% endif %}">
+
+    <!-- ==============================================
+         1. TOP NAVBAR (Only shows if NOT logged in)
+         ============================================== -->
+    {% if not session.get('user_id') %}
+    <nav class="landing-nav">
+        <a href="{{ url_for('index') }}" class="logo">🎓 Campus Lost & Found</a>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}#about">About</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}" class="btn-nav">Register</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- ==============================================
+         2. SIDEBAR (Only shows if LOGGED IN)
+         ============================================== -->
+    {% if session.get('user_id') %}
+    <div class="sidebar">
+        <h2>🎓 Campus L&F</h2>
+        
+        {% if session.get('role') == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_claims') }}">Manage Claims</a>
+            <a href="{{ url_for('admin_found') }}">Register Found Item</a>
+        {% else %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('claim_item') }}">Report Lost Item</a>
+            <a href="{{ url_for('my_claims') }}">My Claims</a>
+        {% endif %}
+        
+        <a href="{{ url_for('view_notifications') }}">Notifications</a>
+        
+        <form method="POST" action="{{ url_for('logout') }}" class="sidebar-logout-form">
+            <button type="submit" class="logout">Logout</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- ==============================================
+         3. MAIN CONTENT AREA
+         ============================================== -->
+    <div class="{% if session.get('user_id') %}main-content{% endif %}">
+        
+        <!-- Flash Messages (Success/Error alerts) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages{% if not session.get('user_id') %} flash-messages-public{% endif %}">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- This is where all page content gets injected -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Connect Javascript -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

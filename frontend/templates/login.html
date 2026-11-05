@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-container">
+    <div class="card">
+        <h2 style="margin-bottom: 0.5rem; text-align: center;">Sign In</h2>
+        <p style="margin: 0 0 1.5rem; text-align: center; color: var(--text-muted);">Use your university account to continue.</p>
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">University email</label>
+                <input id="email" type="email" name="email" required autocomplete="email" placeholder="you@university.edu">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+        </form>
+        <p style="margin-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+            Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">Create an Account</a>
+        </p>
+        <p style="margin-top: 0.75rem; text-align: center; font-size: 0.9rem;">
+            <a href="{{ url_for('admin_login') }}" style="color: var(--text-muted); text-decoration: none;">Campus security sign in</a>
+        </p>
+        <p style="margin-top: 1rem; text-align: center;">
+            <a href="{{ url_for('index') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">← Back to Home</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

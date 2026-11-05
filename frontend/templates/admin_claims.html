@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>Manage Lost Claims</h1>
+    <p>Review student reports, verify suggested matches, and record completed handovers.</p>
+</div>
+<div class="card">
+    {% if claims %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Item Lost</th>
+                    <th>Date Lost</th>
+                    <th>Status</th>
+                    <th>Suggested Matches &amp; Handover</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for claim in claims %}
+                <tr>
+                    <td>
+                        <strong>{{ claim.student_username }}</strong>
+                        {% if claim.student_id %}<br><small>{{ claim.student_id }}</small>{% endif %}
+                    </td>
+                    <td><strong>{{ claim.item_name }}</strong><br><small>{{ claim.color }}</small></td>
+                    <td>{{ claim.date_lost.strftime('%Y-%m-%d') }}</td>
+                    <td><span class="badge badge-{{ claim.status }}">{{ claim.status|capitalize }}</span></td>
+                    <td class="match-cell">
+                        {% if claim.status == 'pending' %}
+                            {% for match in claim.suggested_matches %}
+                            <div class="match-suggestion">
+                                <span><strong>{{ match.item_name }}</strong> · {{ match.color }}</span>
+                                <form method="POST" action="{{ url_for('confirm_match', claim_id=claim._id, found_id=match._id) }}">
+                                    <button type="submit" class="btn btn-sm">Confirm match</button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <span class="muted">No stored items match this report yet.</span>
+                            {% endfor %}
+                        {% elif claim.status == 'matched' and claim.matched_item %}
+                            <p><strong>{{ claim.matched_item.item_name }}</strong> · {{ claim.matched_item.color }}</p>
+                            <form method="POST" action="{{ url_for('return_item', claim_id=claim._id, found_id=claim.matched_item._id) }}" class="return-form">
+                                <label>
+                                    <input type="checkbox" name="ownership_verified" value="yes" required>
+                                    I verified the claimant's identity and ownership.
+                                </label>
+                                <button type="submit" class="btn btn-sm">Record handover</button>
+                            </form>
+                        {% elif claim.status == 'resolved' %}
+                            <span class="returned-note">Returned{% if claim.returned_at %} {{ claim.returned_at.strftime('%Y-%m-%d') }}{% endif %}</span>
+                        {% else %}
+                            <span class="muted">No available match.</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No lost-item claims have been submitted yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

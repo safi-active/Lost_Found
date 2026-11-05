@@ -1,0 +1,37 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Notifications</h1>
+
+<div class="card">
+
+    {% if notifications %}
+
+        {% for notif in notifications %}
+
+            <div class="notification {% if not notif.read %}unread{% endif %}">
+
+                <p><strong>{{ notif.message }}</strong></p>
+
+                <small>
+                    {{ notif.created_at.strftime('%Y-%m-%d %H:%M') }}
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p class="no-notifications">
+            You have no new notifications.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+```
