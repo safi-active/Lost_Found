@@ -2,21 +2,24 @@
 {% block content %}
 <div class="auth-container">
     <div class="card">
-        <p class="eyebrow" style="text-align: center; color: var(--primary);">Campus security</p>
-        <h2 style="margin: 0.5rem 0 1.5rem; text-align: center;">Administrator sign in</h2>
+        <p class="eyebrow" style="text-align: center; color: var(--primary);">{{ _("Campus security") }}</p>
+        <h2 style="margin: 0.5rem 0 1.5rem; text-align: center;">{{ _("Administrator sign in") }}</h2>
         <form method="POST">
             <div class="form-group">
-                <label for="email">Staff email</label>
+                <label for="email">{{ _("Staff email") }}</label>
                 <input id="email" type="email" name="email" required autocomplete="username" placeholder="staff@university.edu">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                <label for="password">{{ _("Password") }}</label>
+                <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="{{ _('Enter your password') }}">
             </div>
-            <button type="submit" class="btn" style="width: 100%;">Sign in to security dashboard</button>
+            <button type="submit" class="btn" style="width: 100%;">{{ _("Sign in to security dashboard") }}</button>
         </form>
         <p style="margin-top: 1.5rem; text-align: center;">
-            <a href="{{ url_for('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">Student sign in</a>
+            <a href="{{ url_for('forgot_password') }}" style="color: var(--primary); text-decoration: none;">{{ _("Reset a forgotten password") }}</a>
+        </p>
+        <p style="margin-top: 1rem; text-align: center;">
+            <a href="{{ url_for('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">{{ _("Student sign in") }}</a>
         </p>
     </div>
 </div>

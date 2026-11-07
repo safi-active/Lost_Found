@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>Notifications</h1>
+<h1>{{ _("Notifications") }}</h1>
 
 <div class="card">
 
@@ -13,7 +13,7 @@
 
             <div class="notification {% if not notif.read %}unread{% endif %}">
 
-                <p><strong>{{ notif.message }}</strong></p>
+                <p><strong>{{ _(notif.message) }}</strong></p>
 
                 <small>
                     {{ notif.created_at.strftime('%Y-%m-%d %H:%M') }}
@@ -25,9 +25,7 @@
 
     {% else %}
 
-        <p class="no-notifications">
-            You have no new notifications.
-        </p>
+        <p class="no-notifications">{{ _("You have no new notifications.") }}</p>
 
     {% endif %}
 

@@ -2,29 +2,29 @@
 {% block content %}
 <div class="auth-container">
     <div class="card">
-        <h2 style="margin-bottom: 0.5rem; text-align: center;">Create an account</h2>
-        <p style="margin-bottom: 1.5rem; text-align: center; color: var(--text-muted);">Join your campus community and keep track of your reports.</p>
+        <h2 style="margin-bottom: 0.5rem; text-align: center;">{{ _("Create an account") }}</h2>
+        <p style="margin-bottom: 1.5rem; text-align: center; color: var(--text-muted);">{{ _("Join your campus community and keep track of your reports.") }}</p>
         <form method="POST">
             <div class="form-group">
-                <label for="username">Full name</label>
+                <label for="username">{{ _("Full name") }}</label>
                 <input id="username" type="text" name="username" required autocomplete="name" placeholder="Your name">
             </div>
             <div class="form-group">
-                <label for="email">University email</label>
+                <label for="email">{{ _("University email") }}</label>
                 <input id="email" type="email" name="email" required autocomplete="email" placeholder="you@university.edu">
             </div>
             <div class="form-group">
-                <label for="student_id">Student ID <span style="font-weight: 400; color: var(--text-muted);">(optional)</span></label>
+                <label for="student_id">{{ _("Student ID") }} <span style="font-weight: 400; color: var(--text-muted);">({{ _("optional") }})</span></label>
                 <input id="student_id" type="text" name="student_id" autocomplete="off" placeholder="Your student ID">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters">
+                <label for="password">{{ _("Password") }}</label>
+                <input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="{{ _('At least 8 characters') }}">
             </div>
-            <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+            <button type="submit" class="btn" style="width: 100%;">{{ _("Create Account") }}</button>
         </form>
         <p style="margin-top: 1.5rem; text-align: center; color: var(--text-muted);">
-            Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">Sign in</a>
+            {{ _("Already have an account?") }} <a href="{{ url_for('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">{{ _("Sign in") }}</a>
         </p>
     </div>
 </div>

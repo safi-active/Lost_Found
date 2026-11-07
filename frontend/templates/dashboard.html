@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome, {{ session['username'] }}</h1>
-<p style="margin-bottom: 2rem; color: var(--text-muted);">Here is an overview of your lost item reports.</p>
+<h1>{{ _("Welcome") }}, {{ session['username'] }}</h1>
+<p style="margin-bottom: 2rem; color: var(--text-muted);">{{ _("Here is an overview of your lost item reports.") }}</p>
 
 <div class="card">
-    <h3>Recent Claims</h3>
+    <h3>{{ _("Recent Claims") }}</h3>
     {% if claims %}
         <table>
             <tr>
-                <th>Item</th>
-                <th>Status</th>
-                <th>Date Lost</th>
+                <th>{{ _("Item") }}</th>
+                <th>{{ _("Status") }}</th>
+                <th>{{ _("Date Lost") }}</th>
             </tr>
             {% for claim in claims %}
             <tr>
                 <td>{{ claim.item_name }} ({{ claim.color }})</td>
-                <td><span class="badge badge-{{ claim.status }}">{{ claim.status|capitalize }}</span></td>
+                <td><span class="badge badge-{{ claim.status }}">{{ _(claim.status|capitalize) }}</span></td>
                 <td>{{ claim.date_lost.strftime('%Y-%m-%d') }}</td>
             </tr>
             {% endfor %}
         </table>
     {% else %}
-        <p style="color: var(--text-muted);">You have not reported any lost items yet.</p>
+        <p style="color: var(--text-muted);">{{ _("You have not reported any lost items yet.") }}</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ session.get('language', 'en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A secure, simple way for our campus community to report and recover lost belongings.">
-    <title>Campus Lost &amp; Found</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="description" content="{{ _('A secure, simple way for our campus community to report and recover lost belongings.') }}">
+    <title>{{ _("Campus Lost & Found") }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='20261108-2') }}">
 </head>
 <body class="landing-page">
     <header class="landing-nav">
-        <a href="{{ url_for('index') }}" class="logo" aria-label="Campus Lost and Found home">
+        <a href="{{ url_for('index') }}" class="logo" aria-label="{{ _('Campus Lost and Found home') }}">
             <span class="logo-mark" aria-hidden="true">C</span>
-            <span>Campus <strong>Lost &amp; Found</strong></span>
+            <span>{{ _("Campus") }} <strong>{{ _("Lost & Found") }}</strong></span>
         </a>
         <nav class="nav-links" aria-label="Main navigation">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="#about">About</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}" class="btn-nav">Register</a>
+            <a href="{{ url_for('index') }}">{{ _("Home") }}</a>
+            <a href="#about">{{ _("About") }}</a>
+            <a href="{{ url_for('login') }}">{{ _("Login") }}</a>
+            <a href="{{ url_for('register') }}" class="btn-nav">{{ _("Register") }}</a>
         </nav>
     </header>
 
@@ -25,7 +25,7 @@
         {% if messages %}
         <div class="landing-flashes" role="status" aria-live="polite">
             {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
+            <div class="alert alert-{{ category }}">{{ _(message) }}</div>
             {% endfor %}
         </div>
         {% endif %}
@@ -34,61 +34,61 @@
     <main>
         <section class="hero" aria-labelledby="hero-title">
             <div class="hero-content">
-                <p class="hero-kicker">A little help goes a long way</p>
-                <h1 id="hero-title">Campus Lost &amp; Found</h1>
-                <p>Lost something on campus? Don't worry. Our platform connects students who have lost their belongings with those who have found them, making it easier to recover what matters.</p>
-                <a href="{{ url_for('login') }}" class="hero-btn">Find Your Lost Item <span aria-hidden="true">→</span></a>
+                <p class="hero-kicker">{{ _("A little help goes a long way") }}</p>
+                    <h1 id="hero-title">{{ _("Campus Lost & Found") }}</h1>
+                    <p>{{ _("Lost something on campus? Don't worry. Our platform connects students who have lost their belongings with those who have found them, making it easier to recover what matters.") }}</p>
+                    <a href="{{ url_for('login') }}" class="hero-btn">{{ _("Find Your Lost Item") }} <span aria-hidden="true">→</span></a>
             </div>
-            <a class="hero-scroll" href="#about">Discover how it works <span aria-hidden="true">↓</span></a>
+                <a class="hero-scroll" href="#about">{{ _("Discover how it works") }} <span aria-hidden="true">↓</span></a>
         </section>
 
         <section id="about" class="about-section" aria-labelledby="about-title">
             <div class="section-heading">
-                <p class="eyebrow">Together, we find a way</p>
-                <h2 id="about-title">A more connected campus</h2>
-                <p>Campus Lost &amp; Found is a central place to report missing belongings and reunite found items with their owners. We built it to replace scattered messages and notice boards with a clearer, more reliable process for students and campus security.</p>
-                <p>Students can submit a lost-item report and follow its status. Security staff register items handed in, review possible matches, and verify ownership before recording a return—helping the whole campus community get back to what matters.</p>
+                <p class="eyebrow">{{ _("Together, we find a way") }}</p>
+                <h2 id="about-title">{{ _("A more connected campus") }}</h2>
+                <p>{{ _("Campus Lost & Found is a central place to report missing belongings and reunite found items with their owners. We built it to replace scattered messages and notice boards with a clearer, more reliable process for students and campus security.") }}</p>
+                <p>{{ _("Students can submit a lost-item report and follow its status. Security staff register items handed in, review possible matches, and verify ownership before recording a return—helping the whole campus community get back to what matters.") }}</p>
             </div>
 
-            <div class="about-gallery" aria-label="Campus community">
+            <div class="about-gallery" aria-label="{{ _('Campus community') }}">
                 <figure class="about-photo about-photo-large">
-                    <img src="{{ url_for('static', filename='class.jpg') }}" alt="Students gathered in a university classroom">
-                    <figcaption>Looking out for one another</figcaption>
+                    <img src="{{ url_for('static', filename='class.jpg') }}" alt="{{ _('Students gathered in a university classroom') }}">
+                    <figcaption>{{ _("Looking out for one another") }}</figcaption>
                 </figure>
                 <figure class="about-photo">
-                    <img src="{{ url_for('static', filename='stairs.jpg') }}" alt="Students moving through a busy campus building">
-                    <figcaption>Across every corner of campus</figcaption>
+                    <img src="{{ url_for('static', filename='stairs.jpg') }}" alt="{{ _('Students moving through a busy campus building') }}">
+                    <figcaption>{{ _("Across every corner of campus") }}</figcaption>
                 </figure>
                 <figure class="about-photo">
-                    <img src="{{ url_for('static', filename='lib.jpg') }}" alt="A student browsing books in the university library">
-                    <figcaption>From the library to the lecture hall</figcaption>
+                    <img src="{{ url_for('static', filename='lib.jpg') }}" alt="{{ _('A student browsing books in the university library') }}">
+                    <figcaption>{{ _("From the library to the lecture hall") }}</figcaption>
                 </figure>
             </div>
 
-            <div class="about-stats" aria-label="Live campus recovery statistics">
+            <div class="about-stats" aria-label="{{ _('Campus community impact') }}">
                 <article class="about-card">
                     <span class="stat-icon" aria-hidden="true">01</span>
-                    <h3>{{ stats.students_helped }}</h3>
-                    <p>Students Helped</p>
+                    <h3>2,000+</h3>
+                    <p>{{ _("People we aim to help across universities") }}</p>
                 </article>
                 <article class="about-card">
                     <span class="stat-icon" aria-hidden="true">02</span>
-                    <h3>{{ stats.items_reported }}</h3>
-                    <p>Items Reported</p>
+                    <h3>5,000+</h3>
+                    <p>{{ _("Items Reported — goal") }}</p>
                 </article>
                 <article class="about-card">
                     <span class="stat-icon" aria-hidden="true">03</span>
-                    <h3>{{ stats.items_recovered }}</h3>
-                    <p>Items Successfully Recovered</p>
+                    <h3>500+</h3>
+                    <p>{{ _("Items Successfully Recovered — goal") }}</p>
                 </article>
             </div>
-            <p class="stats-note">Live totals from campus reports and verified handovers.</p>
+            <p class="stats-note">{{ _("These are outreach and impact goals, not verified achievement totals.") }}</p>
         </section>
     </main>
 
     <footer class="landing-footer">
-        <a href="{{ url_for('index') }}">Campus Lost &amp; Found</a>
-        <span>Helping our campus community reconnect with what matters.</span>
+        <a href="{{ url_for('index') }}">{{ _("Campus Lost & Found") }}</a>
+        <span>{{ _("Helping our campus community reconnect with what matters.") }}</span>
     </footer>
 </body>
 </html>

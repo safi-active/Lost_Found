@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ session.get('language', 'en') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Lost & Found</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ _("Campus Lost & Found") }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='20261108-2') }}">
 </head>
 <!-- If the user is NOT logged in, we use the 'landing-page' class to remove the sidebar flexbox -->
 <body class="{% if not session.get('user_id') %}landing-page{% endif %}">
@@ -14,12 +14,12 @@
          ============================================== -->
     {% if not session.get('user_id') %}
     <nav class="landing-nav">
-        <a href="{{ url_for('index') }}" class="logo">🎓 Campus Lost & Found</a>
+        <a href="{{ url_for('index') }}" class="logo">🎓 {{ _("Campus Lost & Found") }}</a>
         <div class="nav-links">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('index') }}#about">About</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}" class="btn-nav">Register</a>
+            <a href="{{ url_for('index') }}">{{ _("Home") }}</a>
+            <a href="{{ url_for('index') }}#about">{{ _("About") }}</a>
+            <a href="{{ url_for('login') }}">{{ _("Login") }}</a>
+            <a href="{{ url_for('register') }}" class="btn-nav">{{ _("Register") }}</a>
         </div>
     </nav>
     {% endif %}
@@ -29,22 +29,35 @@
          ============================================== -->
     {% if session.get('user_id') %}
     <div class="sidebar">
-        <h2>🎓 Campus L&F</h2>
+        <h2>🎓 {{ _("Campus L&F") }}</h2>
         
         {% if session.get('role') == 'admin' %}
-            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('admin_claims') }}">Manage Claims</a>
-            <a href="{{ url_for('admin_found') }}">Register Found Item</a>
+            <a href="{{ url_for('admin_dashboard') }}">{{ _("Dashboard") }}</a>
+            <a href="{{ url_for('admin_claims') }}">{{ _("Manage Claims") }}</a>
+            <a href="{{ url_for('admin_found') }}">{{ _("Register Found Item") }}</a>
+            <a href="{{ url_for('admin_settings') }}">{{ _("Settings") }}</a>
         {% else %}
-            <a href="{{ url_for('dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('claim_item') }}">Report Lost Item</a>
-            <a href="{{ url_for('my_claims') }}">My Claims</a>
+            <a href="{{ url_for('dashboard') }}">{{ _("Dashboard") }}</a>
+            <a href="{{ url_for('claim_item') }}">{{ _("Report Lost Item") }}</a>
+            <a href="{{ url_for('my_claims') }}">{{ _("My Claims") }}</a>
+            <a href="{{ url_for('settings') }}">{{ _("Settings") }}</a>
         {% endif %}
         
-        <a href="{{ url_for('view_notifications') }}">Notifications</a>
+        <a href="{{ url_for('view_notifications') }}">{{ _("Notifications") }}</a>
+
+        <form method="POST" action="{{ url_for('change_language') }}" class="language-switcher">
+            <label for="language-select">{{ _("Language") }}</label>
+            <select id="language-select" name="language">
+                {% for code, name in supported_languages.items() %}
+                <option value="{{ code }}" {% if session.get('language', 'en') == code %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="return_to" value="{{ request.path }}">
+            <button type="submit">{{ _("Save language") }}</button>
+        </form>
         
         <form method="POST" action="{{ url_for('logout') }}" class="sidebar-logout-form">
-            <button type="submit" class="logout">Logout</button>
+            <button type="submit" class="logout">{{ _("Logout") }}</button>
         </form>
     </div>
     {% endif %}
@@ -59,7 +72,7 @@
             {% if messages %}
                 <div class="flash-messages{% if not session.get('user_id') %} flash-messages-public{% endif %}">
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    <div class="alert alert-{{ category }}">{{ _(message) }}</div>
                 {% endfor %}
                 </div>
             {% endif %}

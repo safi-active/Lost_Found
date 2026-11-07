@@ -1,29 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="page-header">
-    <h1>Admin Dashboard</h1>
-    <p>Overview of all lost and found activities.</p>
+    <h1>{{ _("Admin Dashboard") }}</h1>
+    <p>{{ _("Overview of all lost and found activities.") }}</p>
 </div>
 
 <div class="dashboard-grid">
     <div class="stat-card">
-        <h3>Total Lost Claims</h3>
+        <h3>{{ _("Total Lost Claims") }}</h3>
         <p>{{ stats.total_claims }}</p>
     </div>
     <div class="stat-card warning">
-        <h3>Pending Claims</h3>
+        <h3>{{ _("Pending Claims") }}</h3>
         <p>{{ stats.pending_claims }}</p>
     </div>
     <div class="stat-card success">
-        <h3>Total Found Items</h3>
+        <h3>{{ _("Total Found Items") }}</h3>
         <p>{{ stats.total_found }}</p>
     </div>
     <div class="stat-card">
-        <h3>Items Currently Stored</h3>
+        <h3>{{ _("Items Currently Stored") }}</h3>
         <p>{{ stats.stored_items }}</p>
     </div>
     <div class="stat-card">
-        <h3>Items Returned</h3>
+        <h3>{{ _("Items Returned") }}</h3>
         <p>{{ stats.returned_items }}</p>
     </div>
 </div>

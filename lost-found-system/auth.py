@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db import users
 from datetime import datetime
 
+SUPPORTED_LANGUAGE_CODES = {"en", "fr", "sw", "rw", "es", "de", "zh", "ja"}
+
 # Register a new user
 def register_user(username, email, password, role="student", student_id=None):
     username = (username or "").strip()
@@ -16,7 +18,12 @@ def register_user(username, email, password, role="student", student_id=None):
         return False, "Password must be at least 8 characters."
 
     # Check if user already exists
-    if users.find_one({"$or": [{"email": email}, {"username": username}]}):
+    if users.find_one({
+        "$or": [
+            {"email": {"$regex": f"^{re.escape(email)}$", "$options": "i"}},
+            {"username": username},
+        ],
+    }):
         return False, "Email or Username already exists."
     
     if student_id and users.find_one({"student_id": student_id}):
@@ -28,6 +35,7 @@ def register_user(username, email, password, role="student", student_id=None):
         "email": email,
         "password": generate_password_hash(password), # Hash password for security
         "role": role,
+        "language": "en",
         "created_at": datetime.utcnow()
     }
     if student_id:
@@ -50,8 +58,26 @@ def login_user(email, password):
         session["user_id"] = str(user["_id"])
         session["role"] = user["role"]
         session["username"] = user["username"]
+        language = user.get("language", "en")
+        session["language"] = language if language in SUPPORTED_LANGUAGE_CODES else "en"
         return True, "Login successful."
     return False, "Invalid email or password."
+
+
+def change_user_password(user, current_password, new_password):
+    if not current_password or not check_password_hash(user["password"], current_password):
+        return False, "Your current password is incorrect."
+    if len(new_password or "") < 8:
+        return False, "Password must be at least 8 characters."
+
+    users.update_one(
+        {"_id": user["_id"]},
+        {
+            "$set": {"password": generate_password_hash(new_password)},
+            "$unset": {"password_reset_hash": ""},
+        },
+    )
+    return True, "Password updated successfully."
 
 # Log out
 def logout_user():
@@ -70,6 +96,9 @@ def login_required(f):
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Please log in to access this page.", "warning")
+            return redirect(url_for("login"))
         if session.get("role") != "admin":
             flash("Administrator access required.", "danger")
             return redirect(url_for("dashboard"))
